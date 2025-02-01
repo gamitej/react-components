@@ -52,8 +52,9 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
   return (
     <div className="relative">
       <button
+        aria-selected={isOpen}
         onClick={toggleButton}
-        className="rounded-sm cursor-pointer select-none bg-gray-100 px-4 py-2 w-[15rem] flex justify-between items-center focus:ring-2 focus:ring-blue-200"
+        className="rounded-sm cursor-pointer select-none bg-gray-100 px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
       >
         <span className="text-lg text-gray-700">
           {showDate ?? "dd/mm/yyyy"}
