@@ -38,7 +38,7 @@ const SimpleDropdown = <T extends OptionsType>({
     setIsOpen((state) => !state);
   };
 
-  // 
+  //
   const selectedOption = useMemo(() => {
     if (!selectedValue) return null;
 
@@ -54,7 +54,7 @@ const SimpleDropdown = <T extends OptionsType>({
    * TSX
    */
   return (
-    <div ref={divRef} className="select-none">
+    <div ref={divRef} className="relative select-none">
       <button
         onClick={toggledButton}
         className="bg-gray-100/80 px-4 py-2 rounded-sm text-xl flex justify-between items-center gap-4 w-[20rem] focus:ring-2 focus:ring-blue-300 text-gray-700"
@@ -67,7 +67,7 @@ const SimpleDropdown = <T extends OptionsType>({
 
       <div
         aria-hidden={!isOpen}
-        className="bg-gray-50 aria-hidden:hidden flex flex-col shadow rounded-sm mt-2 overflow-hidden border border-gray-200"
+        className="w-full absolute z-100 bg-gray-50 aria-hidden:hidden flex flex-col shadow rounded-sm mt-2 overflow-hidden border border-gray-200"
       >
         {options.map((option) => (
           <span
