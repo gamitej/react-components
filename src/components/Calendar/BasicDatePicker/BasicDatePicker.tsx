@@ -178,7 +178,7 @@ function WeekAndDaysGridLayout({
       )}
 
       {!isShowYear && (
-        <div className="h-fit p-3">
+        <div className="h-[21rem] p-3">
           {/* ======================= WEEKS ======================== */}
           <div className="grid grid-cols-7 gap-4 py-2">
             {weeks.map(({ week }, idx) => (
