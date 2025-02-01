@@ -23,5 +23,9 @@ export default {
       xl: "1700px",
     },
   },
-  plugins: [],
-}
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("not-last", "&:not(:last-child)");
+    },
+  ],
+};

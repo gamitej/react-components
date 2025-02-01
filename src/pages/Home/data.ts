@@ -1,0 +1,18 @@
+interface PagesDataType {
+  url: string;
+  title: string;
+  description: string;
+}
+
+export const pagesData: PagesDataType[] = [
+  {
+    title: "Dropdown",
+    url: "/dropdown",
+    description: "Click to view dropdown components",
+  },
+  {
+    title: "Calendar",
+    url: "/calendar",
+    description: "Click to view calenbar components",
+  },
+];
