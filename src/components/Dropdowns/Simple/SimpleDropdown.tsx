@@ -1,6 +1,8 @@
-import { OptionsType } from "@/type/type";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
+// hooks
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { IoIosArrowDown as DownIcon } from "react-icons/io";
+import { OptionsType } from "@/type/type";
 
 interface SimpleDropdownProps<T> {
   options: T[];
@@ -13,42 +15,28 @@ const SimpleDropdown = <T extends OptionsType>({
   options = [],
   selectedValue,
 }: SimpleDropdownProps<T>) => {
-  const divRef = useRef<HTMLDivElement | null>(null);
-
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const handleMouseDown = (event: MouseEvent) => {
-      if (divRef.current && !divRef.current.contains(event.target as Node))
-        setIsOpen(false);
-    };
-
-    document.addEventListener("mousedown", handleMouseDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
-    };
-  }, []);
+  const divRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
 
   /**
-   * ============================ EVENT HANDLERS ============================
+   *  EVENT HANDLERS
    */
 
   const toggledButton = () => {
     setIsOpen((state) => !state);
   };
 
-  //
+  const handleSelectOption = (option: T) => {
+    onSelect(option);
+    setIsOpen(false);
+  };
+
+  // get the selected option label & value
   const selectedOption = useMemo(() => {
     if (!selectedValue) return null;
 
     return options.find((option) => option.value === selectedValue.value);
   }, [selectedValue, options]);
-
-  const handleSelectOption = (option: T) => {
-    onSelect(option);
-    setIsOpen(false);
-  };
 
   /**
    * TSX

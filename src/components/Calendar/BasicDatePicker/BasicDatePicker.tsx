@@ -15,6 +15,7 @@ import {
   isGreaterThanCurrentDate,
   yearsOptions,
 } from "./data";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 interface BasicDatePickerProps {
   date?: string | undefined;
@@ -35,6 +36,9 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<DateType | undefined>(
     undefined
   );
+
+  const divRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
+
   const toggleButton = () => setIsOpen((state) => !state);
 
   const handleDateSelect = (date: DateType) => {
@@ -50,7 +54,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
    * TSX
    */
   return (
-    <div className="relative">
+    <div ref={divRef} className="relative">
       <button
         aria-selected={isOpen}
         onClick={toggleButton}
