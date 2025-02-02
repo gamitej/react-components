@@ -1,9 +1,12 @@
 import { useState } from "react";
+// components
+import WeekAndDaysGridLayout from "./components/WeekAndDaysGridLayout";
 // icons
 import { IoCalendar as CalendarIcon } from "react-icons/io5";
+// hooks
 import { useClickOutside } from "@/hooks/useClickOutside";
+// type
 import { BasicDatePickerProps, DateType } from "./type";
-import WeekAndDaysGridLayout from "./components/WeekAndDaysGridLayout";
 
 const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +15,10 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
   );
 
   const divRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
+
+  /**
+   * EVENT HANDLERS
+   */
 
   const toggleButton = () => setIsOpen((state) => !state);
 

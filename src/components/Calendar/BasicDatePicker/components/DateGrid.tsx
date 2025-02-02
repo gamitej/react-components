@@ -1,5 +1,7 @@
-import { compareDates, isGreaterThanCurrentDate, isTodaysDay } from "../data";
 import { DateGridProps } from "../type";
+import DateUtils from "@/utils/DateUtlis";
+
+const { isToday, areDatesEqual, isFutureDate } = DateUtils;
 
 function DateGrid({
   date,
@@ -9,14 +11,11 @@ function DateGrid({
 }: DateGridProps) {
   if (typeof date === "string") return <span className="col-span-1 p-1"></span>;
 
-  const isTodayDate = isTodaysDay({ ...currentDate, date });
-  const isGreater = isGreaterThanCurrentDate({ ...currentDate, date });
+  const isTodayDate = isToday({ ...currentDate, date });
+  const isGreater = isFutureDate({ ...currentDate, date });
 
   const isSelected = selectedDate
-    ? compareDates({
-        date1: selectedDate,
-        date2: { ...currentDate, date },
-      })
+    ? areDatesEqual(selectedDate, { ...currentDate, date })
     : false;
 
   /**
@@ -28,7 +27,7 @@ function DateGrid({
       onClick={() => onDateSelect({ ...currentDate, date })}
       className={`col-span-1 text-center text-gray-600 hover:bg-gray-100 cursor-pointer p-1 rounded-full ${
         isTodayDate ? "border-2 border-blue-300" : ""
-      } ${isGreater && "text-gray-400"} aria-selected:bg-red-200`}
+      } ${isGreater && "text-gray-300"} aria-selected:bg-red-200`}
     >
       {date}
     </span>

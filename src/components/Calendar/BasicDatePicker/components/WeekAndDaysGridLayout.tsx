@@ -2,29 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 // components
 import DateGrid from "./DateGrid";
 // data & types
-import {
-  weeks,
-  yearsOptions,
-  checkLeapYear,
-  getTheWeekDay,
-  getTodaysDay,
-  monthsOptions,
-} from "../data";
+import { weeks, yearsOptions, monthsOptions } from "../data";
 import { DateType, WeekAndDaysGridLayoutProps } from "../type";
 // icons
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
+import DateUtils from "@/utils/DateUtlis";
+
+const { getToday, getWeekDay, isLeapYear } = DateUtils;
 
 function WeekAndDaysGridLayout({
   selectedDate,
   onDateSelect,
 }: WeekAndDaysGridLayoutProps) {
   const [isShowYear, setIsShowYear] = useState<boolean>(false);
-  const [currentDate, setCurrentDate] = useState<DateType>(() =>
-    getTodaysDay()
-  );
+  const [currentDate, setCurrentDate] = useState<DateType>(() => getToday());
 
   /**
-   *  ============================ USE EFFECT ==============================
+   *  USE EFFECT
    *  for setting the current date when user clicks on the calendar date pick
    */
 
@@ -33,52 +27,56 @@ function WeekAndDaysGridLayout({
   }, [selectedDate]);
 
   /**
-   *  ============================ EVENT HANDLERS ===========================
+   *  EVENT HANDLERS
    */
 
-  const handleYearSelect = () => {
-    setIsShowYear((state) => !state);
+  const handleYearSelect = () => setIsShowYear((state) => !state);
+
+  // Function to handle month navigation
+  const changeMonth = (increment: number) => {
+    setCurrentDate((prev) => {
+      const newMonth = prev.month + increment;
+      return {
+        ...prev,
+        month: newMonth > 12 ? 1 : newMonth < 1 ? 12 : newMonth,
+        year:
+          newMonth > 12
+            ? prev.year + 1
+            : newMonth < 1
+            ? prev.year - 1
+            : prev.year,
+      };
+    });
   };
 
-  const handleNextMonth = () => {
-    if (currentDate.month === 12)
-      setCurrentDate((state) => ({ ...state, month: 1, year: state.year + 1 }));
-    else setCurrentDate((state) => ({ ...state, month: state.month + 1 }));
-  };
+  // Compute the month's information and corresponding days array
+  const dateInfo = useMemo(() => {
+    const monthData = monthsOptions.find(
+      (m) => m.month === currentDate.month
+    ) || {
+      days: 0,
+      shortName: "",
+      month: 0,
+    };
 
-  const handlePrevMonth = () => {
-    if (currentDate.month === 1) {
-      setCurrentDate((state) => ({
-        ...state,
-        month: 12,
-        year: state.year - 1,
-      }));
-    } else setCurrentDate((state) => ({ ...state, month: state.month - 1 }));
-  };
+    // Get the first weekday of the month
+    const weekDay = getWeekDay(currentDate) || { no: 1 };
 
-  /**
-   *  ============================ USE MEMO ===========================
-   *  for
-   */
-
-  const date = useMemo(() => {
-    // find the matched month
-    const matchedDateInfo = monthsOptions.find(
-      (item) => item.month === currentDate.month
-    ) || { days: 0, shortName: "", month: 0 };
-
-    // get no of day in a month & starting month day week-name
-    const weekDay = getTheWeekDay(currentDate) || { no: 1 };
-    const emptyFillArray = Array(weekDay?.no - 1).fill(" ");
-    const noOfDay =
-      matchedDateInfo.month === 2
-        ? checkLeapYear(currentDate.year)
+    // Determine the total days in the month (handling February for leap years)
+    const totalDays =
+      monthData.month === 2
+        ? isLeapYear(currentDate.year)
           ? 29
           : 28
-        : matchedDateInfo.days;
-    for (let i = 0; i < noOfDay; i++) emptyFillArray.push(i + 1);
+        : monthData.days;
 
-    return { ...matchedDateInfo, day: weekDay, daysArray: emptyFillArray };
+    // Create an array representing the calendar grid with leading empty spaces
+    const daysArray = [
+      ...Array(weekDay.no - 1).fill(" "),
+      ...Array(totalDays).keys(),
+    ].map((d) => d + 1);
+
+    return { ...monthData, daysArray };
   }, [currentDate]);
 
   /**
@@ -86,10 +84,10 @@ function WeekAndDaysGridLayout({
    */
   return (
     <div>
-      {/* ======================= SELECT OPTIONS ======================== */}
+      {/* Month & Year Selection */}
       <div className="w-full grid grid-cols-12 text-gray-600 overflow-hidden border-b">
         <span
-          onClick={handlePrevMonth}
+          onClick={() => changeMonth(-1)}
           aria-selected={isShowYear} // when year is selected hide this
           className="rounded-sm col-span-3 aria-selected:hidden flex justify-center items-center hover:bg-gray-100 cursor-pointer p-2 focus:ring-2 focus:ring-blue-200"
         >
@@ -100,10 +98,10 @@ function WeekAndDaysGridLayout({
           aria-selected={isShowYear}
           className="border-x rounded-sm col-span-6 aria-selected:col-span-12 text-center text-lg hover:bg-gray-100 cursor-pointer p-2 uppercase"
         >
-          {date?.shortName} {currentDate.year}
+          {dateInfo?.shortName} {currentDate.year}
         </span>
         <span
-          onClick={handleNextMonth}
+          onClick={() => changeMonth(1)}
           aria-selected={isShowYear} // when year is selected hide this
           className="rounded-sm col-span-3 aria-selected:hidden flex justify-center items-center hover:bg-gray-100 cursor-pointer p-2 focus:ring-2 focus:ring-blue-200"
         >
@@ -132,7 +130,7 @@ function WeekAndDaysGridLayout({
 
       {!isShowYear && (
         <div className="h-[21rem] p-3">
-          {/* ======================= WEEKS ======================== */}
+          {/* Week Days Header */}
           <div className="grid grid-cols-7 gap-4 py-2">
             {weeks.map(({ week }, idx) => (
               <span
@@ -144,9 +142,9 @@ function WeekAndDaysGridLayout({
               </span>
             ))}
           </div>
-          {/* ======================= DAYS ======================== */}
+          {/* Days Grid */}
           <div className="grid grid-cols-7 gap-4">
-            {date.daysArray.map((date, idx) => (
+            {dateInfo.daysArray.map((date, idx) => (
               <DateGrid
                 date={date}
                 key={`${date}-${idx}`}

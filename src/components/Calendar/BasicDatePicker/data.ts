@@ -1,4 +1,3 @@
-
 export const months = [
   { month: "January", days: 31 },
   { month: "February", days: 28 }, // 29 in leap years
@@ -39,65 +38,65 @@ export const yearsOptions = Array.from({ length: 2099 - 1900 + 1 }).map(
   }
 );
 
-export const checkLeapYear = (year: number): boolean => {
-  const days =
-    year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28;
+// export const checkLeapYear = (year: number): boolean => {
+//   const days =
+//     year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28;
 
-  return days === 29;
-};
+//   return days === 29;
+// };
 
-/**
- * ==================== GET THE DAY ======================
- */
+// /**
+//  * =================================== FUNCTION'S ======================================
+//  */
 
-export const getTheWeekDay = <T extends { year: number; month: number }>(
-  currentDate: T
-): { no: number; week: string } | undefined => {
-  const dateFormat = `${currentDate.year}/${currentDate.month}/1`;
-  const day = new Date(dateFormat).getDay();
-  const weekDay = weeks.find((w) => w.no === day + 1);
+// export const getTheWeekDay = <T extends { year: number; month: number }>(
+//   currentDate: T
+// ): { no: number; week: string } | undefined => {
+//   const dateFormat = `${currentDate.year}/${currentDate.month}/1`;
+//   const day = new Date(dateFormat).getDay();
+//   const weekDay = weeks.find((w) => w.no === day + 1);
 
-  return weekDay;
-};
+//   return weekDay;
+// };
 
-export const getTodaysDay = (): DateType => {
-  const date = new Date().getDate();
-  const month = new Date().getMonth() + 1;
-  const year = new Date().getFullYear();
+// export const getTodaysDay = (): DateType => {
+//   const date = new Date().getDate();
+//   const month = new Date().getMonth() + 1;
+//   const year = new Date().getFullYear();
 
-  return { date, month, year };
-};
+//   return { date, month, year };
+// };
 
-export const isTodaysDay = (givenDate: DateType): boolean => {
-  const currDate = getTodaysDay() as DateType;
+// export const isTodaysDay = (givenDate: DateType): boolean => {
+//   const currDate = getTodaysDay() as DateType;
 
-  return (
-    givenDate.year === currDate.year &&
-    givenDate.month === currDate.month &&
-    givenDate.date === currDate.date
-  );
-};
+//   return (
+//     givenDate.year === currDate.year &&
+//     givenDate.month === currDate.month &&
+//     givenDate.date === currDate.date
+//   );
+// };
 
-export const isGreaterThanCurrentDate = (givenDate: DateType): boolean => {
-  const currDate = getTodaysDay();
+// export const isGreaterThanCurrentDate = (givenDate: DateType): boolean => {
+//   const currDate = getTodaysDay();
 
-  // Create Date objects for comparison
-  const current = new Date(currDate.year, currDate.month - 1, currDate.date);
-  const given = new Date(givenDate.year, givenDate.month - 1, givenDate.date);
+//   // Create Date objects for comparison
+//   const current = new Date(currDate.year, currDate.month - 1, currDate.date);
+//   const given = new Date(givenDate.year, givenDate.month - 1, givenDate.date);
 
-  return given > current;
-};
+//   return given.getTime() > current.getTime();
+// };
 
-export const compareDates = ({
-  date1,
-  date2,
-}: {
-  date1: DateType;
-  date2: DateType;
-}): boolean => {
-  // Create Date objects for precise comparison
-  const dateObj1 = new Date(date1.year, date1.month - 1, date1.date);
-  const dateObj2 = new Date(date2.year, date2.month - 1, date2.date);
+// export const compareDates = ({
+//   date1,
+//   date2,
+// }: {
+//   date1: DateType;
+//   date2: DateType;
+// }): boolean => {
+//   // Create Date objects for precise comparison
+//   const dateObj1 = new Date(date1.year, date1.month - 1, date1.date);
+//   const dateObj2 = new Date(date2.year, date2.month - 1, date2.date);
 
-  return dateObj1.getTime() === dateObj2.getTime();
-};
+//   return dateObj1.getTime() === dateObj2.getTime();
+// };
