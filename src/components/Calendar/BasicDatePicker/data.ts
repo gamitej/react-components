@@ -1,8 +1,3 @@
-export type DateType = {
-  year: number;
-  month: number;
-  date: number;
-};
 
 export const months = [
   { month: "January", days: 31 },
