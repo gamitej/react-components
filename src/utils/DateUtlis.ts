@@ -42,7 +42,7 @@ class DateUtils {
    * @returns True if the given date is today, otherwise false.
    */
   static isToday(givenDate: DateType): boolean {
-    const today = this.getToday();
+    const today = DateUtils.getToday();
     return (
       givenDate.year === today.year &&
       givenDate.month === today.month &&
