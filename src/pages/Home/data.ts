@@ -15,4 +15,9 @@ export const pagesData: PagesDataType[] = [
     url: "/calendar",
     description: "Click to view calenbar components",
   },
+  {
+    title: "Toast Notification",
+    url: "/toast",
+    description: "Click to view toast components",
+  },
 ];
