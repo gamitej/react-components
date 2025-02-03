@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 // components
 import DateGrid from "./DateGrid";
 // data & types
@@ -7,6 +7,7 @@ import { DateType, WeekAndDaysGridLayoutProps } from "../type";
 // icons
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
 import DateUtils from "@/utils/DateUtlis";
+import { useDatePicker } from "../context/DatePickerContext";
 
 const { getToday, getWeekDay, isLeapYear } = DateUtils;
 
@@ -19,9 +20,9 @@ function WeekAndDaysGridLayout({
 
   /**
    *  USE EFFECT
-   *  for setting the current date when user clicks on the calendar date pick
    */
 
+  // for setting the current date when user clicks on the calendar date pick
   useEffect(() => {
     if (selectedDate) setCurrentDate(selectedDate);
   }, [selectedDate]);
@@ -109,24 +110,7 @@ function WeekAndDaysGridLayout({
         </span>
       </div>
 
-      {isShowYear && (
-        <div className="h-[15rem] px-2 py-1 overflow-y-auto">
-          <div className="w-full grid grid-cols-12">
-            {yearsOptions.map((year) => (
-              <span
-                key={year}
-                aria-selected={
-                  selectedDate?.year ? selectedDate?.year === year : false
-                }
-                onClick={() => onDateSelect({ date: 1, month: 1, year })}
-                className="p-2 col-span-3 text-center text-gray-600 cursor-pointer hover:bg-gray-100 aria-selected:bg-red-300"
-              >
-                {year}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+      {isShowYear && <Years onDateSelect={onDateSelect} />}
 
       {!isShowYear && (
         <div className="h-[21rem] p-3">
@@ -156,6 +140,43 @@ function WeekAndDaysGridLayout({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function Years({ onDateSelect }) {
+  const yearRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
+  const { isOpen, handleDateSelect, selectedDate, toggleDropdown } =
+    useDatePicker();
+
+  useEffect(() => {
+    if (isOpen && selectedDate?.year && yearRefs.current[selectedDate.year]) {
+      const selectedYearRef = yearRefs.current[selectedDate.year];
+
+      selectedYearRef?.scrollIntoView({
+        // behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [selectedDate?.year, isOpen]);
+
+  return (
+    <div className="h-[15rem] px-2 py-1 overflow-y-auto">
+      <div className="w-full grid grid-cols-12">
+        {yearsOptions.map((year) => (
+          <span
+            key={year}
+            ref={(el) => (yearRefs.current[year] = el)}
+            aria-selected={
+              selectedDate?.year ? selectedDate?.year === year : false
+            }
+            onClick={() => onDateSelect({ date: 1, month: 1, year })}
+            className="p-2 col-span-3 text-center text-gray-600 cursor-pointer hover:bg-gray-100 aria-selected:bg-red-300"
+          >
+            {year}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 // components
 import WeekAndDaysGridLayout from "./components/WeekAndDaysGridLayout";
 // icons
@@ -6,26 +5,18 @@ import { IoCalendar as CalendarIcon } from "react-icons/io5";
 // hooks
 import { useClickOutside } from "@/hooks/useClickOutside";
 // type
-import { BasicDatePickerProps, DateType } from "./type";
+import { BasicDatePickerProps } from "./type";
+import { useDatePicker } from "./context/DatePickerContext";
 
 const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<DateType | undefined>(
-    undefined
-  );
+  const { isOpen, handleDateSelect, selectedDate, toggleDropdown } =
+    useDatePicker();
 
-  const divRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
+  const divRef = useClickOutside<HTMLDivElement>(() => toggleDropdown());
 
   /**
    * EVENT HANDLERS
    */
-
-  const toggleButton = () => setIsOpen((state) => !state);
-
-  const handleDateSelect = (date: DateType) => {
-    setSelectedDate(date);
-    setIsOpen(false);
-  };
 
   const showDate = selectedDate
     ? `${selectedDate?.date}/${selectedDate?.month}/${selectedDate?.year}`
@@ -38,7 +29,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
     <div ref={divRef} className="relative">
       <button
         aria-selected={isOpen}
-        onClick={toggleButton}
+        onClick={toggleDropdown}
         className="rounded-sm cursor-pointer select-none bg-gray-100 px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
       >
         <span className="text-lg text-gray-700">
