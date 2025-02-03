@@ -12,7 +12,7 @@ const DatePicker = () => {
    * TSX
    */
   return (
-    <div className="flex justify-center mt-36">
+    <div className="flex justify-center pt-36">
       <BasicDatePicker />
     </div>
   );

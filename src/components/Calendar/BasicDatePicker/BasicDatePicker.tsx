@@ -9,9 +9,9 @@ import { BasicDatePickerProps } from "./type";
 import { useDatePicker } from "./context/DatePickerContext";
 
 const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
-  const { isOpen, selectedDate, toggleDropdown } = useDatePicker();
+  const { isOpen, selectedDate, toggleDropdown, handleClose } = useDatePicker();
 
-  const divRef = useClickOutside<HTMLDivElement>(() => toggleDropdown());
+  const divRef = useClickOutside<HTMLDivElement>(() => handleClose());
 
   /**
    * EVENT HANDLERS
@@ -29,7 +29,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
       <button
         aria-selected={isOpen}
         onClick={toggleDropdown}
-        className="rounded-sm cursor-pointer select-none bg-gray-100 px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
+        className="rounded-md cursor-pointer select-none border px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
       >
         <span className="text-lg text-gray-700">
           {showDate ?? "dd/mm/yyyy"}
@@ -41,7 +41,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
 
       <div
         aria-hidden={!isOpen}
-        className="aria-hidden:hidden absolute w-[25rem] z-100 mt-1 bg-white shadow-md rounded-sm border select-none"
+        className="aria-hidden:hidden absolute w-[25rem] z-100 mt-1 bg-white shadow-md rounded-md border select-none"
       >
         <WeekAndDaysGridLayout />
       </div>

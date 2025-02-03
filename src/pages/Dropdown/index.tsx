@@ -19,7 +19,7 @@ const Dropdown = () => {
    * TSX
    */
   return (
-    <div className="flex justify-center mt-36">
+    <div className="flex justify-center pt-36">
       <SimpleDropdown
         options={options}
         selectedValue={select}

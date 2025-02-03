@@ -45,9 +45,9 @@ const SimpleDropdown = <T extends OptionsType>({
     <div ref={divRef} className="relative select-none">
       <button
         onClick={toggledButton}
-        className="bg-gray-100/80 px-4 py-2 rounded-sm text-xl flex justify-between items-center gap-4 w-[20rem] focus:ring-2 focus:ring-blue-300 text-gray-700"
+        className="px-4 py-2 border rounded-md text-xl flex justify-between items-center gap-4 w-[20rem] focus:ring-2 focus:ring-blue-300 text-gray-700"
       >
-        <span>{selectedOption?.label ?? "select..."}</span>
+        <span>{selectedOption?.label ?? "select option..."}</span>
         <span>
           <DownIcon className={`${!isOpen ? "-rotate-90" : ""}`} />
         </span>
@@ -55,7 +55,7 @@ const SimpleDropdown = <T extends OptionsType>({
 
       <div
         aria-hidden={!isOpen}
-        className="w-full absolute z-100 bg-gray-50 aria-hidden:hidden flex flex-col shadow rounded-sm mt-2 overflow-hidden border border-gray-200"
+        className="w-full absolute z-100 aria-hidden:hidden flex flex-col shadow rounded-md mt-2 overflow-hidden border"
       >
         {options.map((option) => (
           <span

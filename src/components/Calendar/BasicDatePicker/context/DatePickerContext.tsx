@@ -3,6 +3,7 @@ import { DateType } from "../type";
 
 interface DatePickerContextType {
   isOpen: boolean;
+  handleClose: () => void;
   toggleDropdown: () => void;
   selectedDate: DateType | undefined;
   handleDateSelect: (date: DateType, isCalendarOpen: boolean) => void;
@@ -28,6 +29,8 @@ export const DatePickerProvider: FC<{ children: ReactNode }> = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
+  const handleClose = () => setIsOpen(false);
+
   const handleDateSelect = (date: DateType, isCalendarOpen: boolean) => {
     setSelectedDate(date);
     setIsOpen(isCalendarOpen);
@@ -35,7 +38,13 @@ export const DatePickerProvider: FC<{ children: ReactNode }> = ({
 
   return (
     <DatePickerContext.Provider
-      value={{ isOpen, selectedDate, toggleDropdown, handleDateSelect }}
+      value={{
+        isOpen,
+        selectedDate,
+        toggleDropdown,
+        handleDateSelect,
+        handleClose,
+      }}
     >
       {children}
     </DatePickerContext.Provider>
