@@ -44,10 +44,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
         aria-hidden={!isOpen}
         className="aria-hidden:hidden absolute w-[25rem] z-100 mt-1 bg-white shadow-md rounded-sm border select-none"
       >
-        <WeekAndDaysGridLayout
-          selectedDate={selectedDate}
-          onDateSelect={handleDateSelect}
-        />
+        <WeekAndDaysGridLayout />
       </div>
     </div>
   );

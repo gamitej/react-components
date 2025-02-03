@@ -2,12 +2,7 @@ export interface BasicDatePickerProps {
   date?: string | undefined;
 }
 
-export interface WeekAndDaysGridLayoutProps {
-  selectedDate: DateType | undefined;
-  onDateSelect: (val: DateType) => void;
-}
-
-export interface DateGridProps extends WeekAndDaysGridLayoutProps {
+export interface DateGridProps {
   currentDate: DateType;
   date: number | string;
 }

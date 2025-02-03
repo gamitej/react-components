@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 // components
 import DateGrid from "./DateGrid";
 // data & types
+import { DateType } from "../type";
 import { weeks, yearsOptions, monthsOptions } from "../data";
-import { DateType, WeekAndDaysGridLayoutProps } from "../type";
 // icons
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
 import DateUtils from "@/utils/DateUtlis";
@@ -11,10 +11,9 @@ import { useDatePicker } from "../context/DatePickerContext";
 
 const { getToday, getWeekDay, isLeapYear } = DateUtils;
 
-function WeekAndDaysGridLayout({
-  selectedDate,
-  onDateSelect,
-}: WeekAndDaysGridLayoutProps) {
+function WeekAndDaysGridLayout() {
+  const { selectedDate } = useDatePicker();
+
   const [isShowYear, setIsShowYear] = useState<boolean>(false);
   const [currentDate, setCurrentDate] = useState<DateType>(() => getToday());
 
@@ -110,7 +109,7 @@ function WeekAndDaysGridLayout({
         </span>
       </div>
 
-      {isShowYear && <Years onDateSelect={onDateSelect} />}
+      {isShowYear && <Years />}
 
       {!isShowYear && (
         <div className="h-[21rem] p-3">
@@ -133,8 +132,8 @@ function WeekAndDaysGridLayout({
                 date={date}
                 key={`${date}-${idx}`}
                 currentDate={currentDate}
-                onDateSelect={onDateSelect}
-                selectedDate={selectedDate}
+                // selectedDate={selectedDate}
+                // onDateSelect={handleDateSelect}
               />
             ))}
           </div>
@@ -144,10 +143,9 @@ function WeekAndDaysGridLayout({
   );
 }
 
-function Years({ onDateSelect }) {
+function Years() {
+  const { isOpen, handleDateSelect, selectedDate } = useDatePicker();
   const yearRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
-  const { isOpen, handleDateSelect, selectedDate, toggleDropdown } =
-    useDatePicker();
 
   useEffect(() => {
     if (isOpen && selectedDate?.year && yearRefs.current[selectedDate.year]) {
@@ -170,7 +168,7 @@ function Years({ onDateSelect }) {
             aria-selected={
               selectedDate?.year ? selectedDate?.year === year : false
             }
-            onClick={() => onDateSelect({ date: 1, month: 1, year })}
+            onClick={() => handleDateSelect({ date: 1, month: 1, year })}
             className="p-2 col-span-3 text-center text-gray-600 cursor-pointer hover:bg-gray-100 aria-selected:bg-red-300"
           >
             {year}
