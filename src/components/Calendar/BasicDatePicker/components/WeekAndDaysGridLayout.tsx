@@ -30,7 +30,7 @@ function WeekAndDaysGridLayout() {
    *  EVENT HANDLERS
    */
 
-  const handleYearSelect = () => setIsShowYear((state) => !state);
+  const toggleYearSelect = () => setIsShowYear((state) => !state);
 
   // Function to handle month navigation
   const changeMonth = (increment: number) => {
@@ -94,7 +94,7 @@ function WeekAndDaysGridLayout() {
           <ArrowIcon className="text-xl" />
         </span>
         <span
-          onClick={handleYearSelect}
+          onClick={toggleYearSelect}
           aria-selected={isShowYear}
           className="border-x rounded-sm col-span-6 aria-selected:col-span-12 text-center text-lg hover:bg-gray-100 cursor-pointer p-2 uppercase"
         >
@@ -109,7 +109,7 @@ function WeekAndDaysGridLayout() {
         </span>
       </div>
 
-      {isShowYear && <Years />}
+      {isShowYear && <Years toggleYearSelect={toggleYearSelect} />}
 
       {!isShowYear && (
         <div className="h-[21rem] p-3">
@@ -132,8 +132,6 @@ function WeekAndDaysGridLayout() {
                 date={date}
                 key={`${date}-${idx}`}
                 currentDate={currentDate}
-                // selectedDate={selectedDate}
-                // onDateSelect={handleDateSelect}
               />
             ))}
           </div>
@@ -143,7 +141,7 @@ function WeekAndDaysGridLayout() {
   );
 }
 
-function Years() {
+function Years({ toggleYearSelect }: { toggleYearSelect: () => void }) {
   const { isOpen, handleDateSelect, selectedDate } = useDatePicker();
   const yearRefs = useRef<{ [key: number]: HTMLSpanElement | null }>({});
 
@@ -152,11 +150,15 @@ function Years() {
       const selectedYearRef = yearRefs.current[selectedDate.year];
 
       selectedYearRef?.scrollIntoView({
-        // behavior: "smooth",
         block: "center",
       });
     }
   }, [selectedDate?.year, isOpen]);
+
+  const handleYearSelect = (date: DateType, isCalendarOpen: boolean) => {
+    handleDateSelect(date, isCalendarOpen);
+    toggleYearSelect();
+  };
 
   return (
     <div className="h-[15rem] px-2 py-1 overflow-y-auto">
@@ -168,7 +170,7 @@ function Years() {
             aria-selected={
               selectedDate?.year ? selectedDate?.year === year : false
             }
-            onClick={() => handleDateSelect({ date: 1, month: 1, year })}
+            onClick={() => handleYearSelect({ date: 1, month: 1, year }, true)}
             className="p-2 col-span-3 text-center text-gray-600 cursor-pointer hover:bg-gray-100 aria-selected:bg-red-300"
           >
             {year}

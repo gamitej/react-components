@@ -23,10 +23,12 @@ function DateGrid({ date, currentDate }: DateGridProps) {
   return (
     <span
       aria-selected={isSelected}
-      onClick={() => handleDateSelect({ ...currentDate, date })}
-      className={`col-span-1 text-center text-gray-600 hover:bg-gray-100 cursor-pointer p-1 rounded-full ${
+      onClick={() => handleDateSelect({ ...currentDate, date }, false)}
+      className={`col-span-1 text-center hover:bg-gray-100 cursor-pointer p-1 rounded-full ${
         isTodayDate ? "border-2 border-blue-300" : ""
-      } ${isGreater && "text-gray-300"} aria-selected:bg-red-200`}
+      } ${
+        isGreater ? "text-gray-400" : "text-gray-600"
+      } aria-selected:bg-red-200`}
     >
       {date}
     </span>

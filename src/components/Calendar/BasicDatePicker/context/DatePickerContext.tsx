@@ -5,7 +5,7 @@ interface DatePickerContextType {
   isOpen: boolean;
   toggleDropdown: () => void;
   selectedDate: DateType | undefined;
-  handleDateSelect: (date: DateType) => void;
+  handleDateSelect: (date: DateType, isCalendarOpen: boolean) => void;
 }
 
 /**
@@ -28,9 +28,9 @@ export const DatePickerProvider: FC<{ children: ReactNode }> = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleDateSelect = (date: DateType) => {
+  const handleDateSelect = (date: DateType, isCalendarOpen: boolean) => {
     setSelectedDate(date);
-    setIsOpen(false);
+    setIsOpen(isCalendarOpen);
   };
 
   return (
