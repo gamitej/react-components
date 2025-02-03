@@ -12,7 +12,7 @@ import { useDatePicker } from "../context/DatePickerContext";
 const { getToday, getWeekDay, isLeapYear } = DateUtils;
 
 function WeekAndDaysGridLayout() {
-  const { selectedDate } = useDatePicker();
+  const { isOpen, selectedDate } = useDatePicker();
 
   const [isShowYear, setIsShowYear] = useState<boolean>(false);
   const [currentDate, setCurrentDate] = useState<DateType>(() => getToday());
@@ -24,7 +24,7 @@ function WeekAndDaysGridLayout() {
   // for setting the current date when user clicks on the calendar date pick
   useEffect(() => {
     if (selectedDate) setCurrentDate(selectedDate);
-  }, [selectedDate]);
+  }, [selectedDate, isOpen]);
 
   /**
    *  EVENT HANDLERS
