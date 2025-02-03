@@ -29,7 +29,7 @@ const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
       <button
         aria-selected={isOpen}
         onClick={toggleDropdown}
-        className="rounded-md cursor-pointer select-none border px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
+        className="rounded-md cursor-pointer hover:bg-gray-100 bg-white shadow select-none border px-4 py-2 w-[15rem] flex justify-between items-center aria-selected:ring-2 peer-aria-selected:ring-blue-200"
       >
         <span className="text-lg text-gray-700">
           {showDate ?? "dd/mm/yyyy"}

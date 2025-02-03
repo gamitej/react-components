@@ -103,7 +103,7 @@ function WeekAndDaysGridLayout() {
         <span
           onClick={() => changeMonth(1)}
           aria-selected={isShowYear} // when year is selected hide this
-          className="rounded-sm col-span-3 aria-selected:hidden flex justify-center items-center hover:bg-gray-100 cursor-pointer p-2 focus:ring-2 focus:ring-blue-200"
+          className="rounded-sm col-span-3 aria-selected:hidden flex justify-center items-center hover:bg-gray-100 cursor-pointer p-2focus:ring-2 focus:ring-blue-200"
         >
           <ArrowIcon className="-rotate-180 text-xl" />
         </span>
