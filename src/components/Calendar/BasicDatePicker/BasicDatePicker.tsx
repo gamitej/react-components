@@ -9,8 +9,7 @@ import { BasicDatePickerProps } from "./type";
 import { useDatePicker } from "./context/DatePickerContext";
 
 const BasicDatePicker = ({ date }: BasicDatePickerProps) => {
-  const { isOpen, handleDateSelect, selectedDate, toggleDropdown } =
-    useDatePicker();
+  const { isOpen, selectedDate, toggleDropdown } = useDatePicker();
 
   const divRef = useClickOutside<HTMLDivElement>(() => toggleDropdown());
 
