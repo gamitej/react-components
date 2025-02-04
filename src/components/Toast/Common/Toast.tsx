@@ -13,21 +13,22 @@ const Toast = ({
   message,
   onRemove,
   duration = 3000,
-}: // animation,
-ToastProps) => {
+}: ToastProps) => {
   const [visible, setVisible] = useState(false);
   const [percentage, setPercentage] = useState<number>(0);
 
+  // Effect to show the notification and auto-remove it after the specified duration
   useEffect(() => {
     setVisible(true);
     const timer = setTimeout(() => {
       setVisible(false);
-      onRemove(id);
+      onRemove(id); // Remove the notification after it disappears
     }, duration);
 
     return () => clearTimeout(timer);
   }, [id, duration]);
 
+  // Effect to gradually increase the percentage over the duration
   useEffect(() => {
     let time = 100;
 
@@ -40,7 +41,7 @@ ToastProps) => {
 
   const handleClose = () => {
     setVisible(false);
-    setTimeout(() => onRemove(id), 300);
+    setTimeout(() => onRemove(id), 300); // Allow animation time before removal
   };
 
   const { icon: Icon, bgColor } = toastTypeBackGroundMapping[type];
