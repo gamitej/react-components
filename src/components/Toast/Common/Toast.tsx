@@ -16,6 +16,7 @@ const Toast = ({
 }: // animation,
 ToastProps) => {
   const [visible, setVisible] = useState(false);
+  const [percentage, setPercentage] = useState<number>(0);
 
   useEffect(() => {
     setVisible(true);
@@ -25,6 +26,16 @@ ToastProps) => {
     }, duration);
 
     return () => clearTimeout(timer);
+  }, [id, duration]);
+
+  useEffect(() => {
+    let time = 100;
+
+    const interval = setInterval(() => {
+      setPercentage((state) => state + 1);
+    }, duration / time);
+
+    return () => clearInterval(interval);
   }, [id, duration]);
 
   const handleClose = () => {
@@ -39,10 +50,15 @@ ToastProps) => {
    */
   return (
     <div
-      className={`transition-all ease-in-out ${
+      className={`relative transition-all ease-in-out overflow-hidden ${
         visible ? "opacity-100 duration-300" : "opacity-0 duration-300"
       }`}
     >
+      <span
+        style={{ width: `${percentage}%` }}
+        className="absolute -bottom-1 left-0 bg-white opacity-20 h-[calc(100%+12px)] z-10"
+      ></span>
+
       <div
         className={`relative ${bgColor} pl-4 pr-14 py-3 rounded-md shadow cursor-pointer hover:shadow-sm hover:shadow-white flex justify-center gap-4 items-center`}
       >
