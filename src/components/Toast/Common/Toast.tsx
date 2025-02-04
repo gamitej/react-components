@@ -65,10 +65,7 @@ ToastProps) => {
         <span>
           <Icon className="text-white text-2xl" />
         </span>
-        <span className="text-white text-xl">
-          {id.slice(0, 3)}
-          {message}
-        </span>
+        <span className="text-white text-xl">{message}</span>
         <span
           onClick={() => handleClose()}
           className="absolute right-4 text-center"

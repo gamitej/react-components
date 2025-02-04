@@ -12,7 +12,6 @@ export interface ToastNotificationProps {
   message: string;
   type: ToastTypes;
   duration?: number;
-  position?: ToastPosition;
   animation?: ToastAnimation;
 }
 

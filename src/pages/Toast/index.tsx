@@ -10,18 +10,17 @@ const Toast = () => {
     <div className="flex justify-center pt-36">
       <div className="w-full flex flex-col justify-center items-center gap-4">
         <div className="flex justify-center items-center gap-4">
-          {/* <button
+          <button
             onClick={() =>
               triggerToast("top-center", {
                 type: "success",
-                position: "top-center",
                 message: "File successfully downloaded",
               })
             }
             className="bg-green-400 w-[10rem] py-3 rounded-md shadow text-white font-[550]"
           >
             Click Success !
-          </button> */}
+          </button>
           <button
             onClick={() =>
               triggerToast("top-center", {
@@ -33,18 +32,18 @@ const Toast = () => {
           >
             Click Info !
           </button>
-          {/* <button
+          <button
             onClick={() =>
-              triggerToast({
-                type: "error",
-                position: "top-right",
+              triggerToast("bottom-right", {
+                type: "warning",
                 message: "Failed to download file!",
+                duration: 2000,
               })
             }
             className="bg-red-400 w-[10rem] py-3 rounded-md shadow text-white font-[550]"
           >
             Click Error !
-          </button> */}
+          </button>
         </div>
       </div>
     </div>
