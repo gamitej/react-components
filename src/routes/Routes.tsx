@@ -1,7 +1,9 @@
 import { lazy, Suspense } from "react";
 import { useRoutes } from "react-router-dom";
 // components
+import { ToastContainerProvider } from "@/components/Toast/ContextApproach/ToastContainerContext";
 import { DatePickerProvider } from "@/components/Calendar/BasicDatePicker/context/DatePickerContext";
+
 // pages
 const Home = lazy(() => import("@/pages/Home"));
 const Dropdown = lazy(() => import("@/pages/Dropdown"));
@@ -28,7 +30,11 @@ const Router = () => {
     },
     {
       path: "toast",
-      element: <Toast />,
+      element: (
+        <ToastContainerProvider>
+          <Toast />
+        </ToastContainerProvider>
+      ),
     },
   ]);
 
