@@ -1,25 +1,40 @@
-import { ReactNode, useState } from "react";
+import { ReactElement, useState } from "react";
 
 interface StepperProps {
   width?: string;
-  data: { name: string; component: () => string }[];
+  data: {
+    name: string;
+    component: ReactElement | (() => JSX.Element);
+  }[];
+  FinishedInfo?: ReactElement | (() => JSX.Element);
 }
 
-const Stepper = ({ data, width = "100%" }: StepperProps) => {
+function DefaultFinishedInfo() {
+  return <div>Process completed successfully!</div>;
+}
+
+const Stepper = ({ data, width = "100%", FinishedInfo }: StepperProps) => {
   const totalSteps = data.length;
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleNext = () => {
-    if (currentStep < totalSteps - 1) setCurrentStep((prev) => prev + 1);
+    setCurrentStep((prev) => (prev < totalSteps ? prev + 1 : prev));
   };
 
   const handlePrev = () => {
-    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+    setCurrentStep((prev) => (prev > 1 ? prev - 1 : prev));
   };
 
-  const progressBarWidth = Math.ceil((currentStep / (totalSteps - 1)) * 100);
+  const progressBarWidth = `${Math.ceil(
+    ((currentStep - 1) / (totalSteps - 1)) * 100
+  )}%`;
 
-  const SelectedStepperComponent = data[currentStep].component;
+  const SelectedStepperComponent =
+    currentStep <= totalSteps
+      ? data[currentStep - 1].component
+      : FinishedInfo
+      ? FinishedInfo
+      : DefaultFinishedInfo;
 
   if (data.length < 2) {
     console.error("Stepper data is too short!");
@@ -34,7 +49,7 @@ const Stepper = ({ data, width = "100%" }: StepperProps) => {
         <div className="absolute top-6 w-[calc(100%-5rem)] h-2 bg-gray-300 rounded-lg">
           <div
             className="h-2 bg-blue-500 rounded-lg transition-all duration-300"
-            style={{ width: `${progressBarWidth}%` }}
+            style={{ width: progressBarWidth }}
           ></div>
         </div>
 
@@ -42,46 +57,53 @@ const Stepper = ({ data, width = "100%" }: StepperProps) => {
         <div className="flex w-[calc(100%+.2rem)] justify-between items-center">
           {data.map(({ name }, idx) => (
             <div
-              key={`${name}-${idx}`}
+              key={name}
               className="flex flex-col justify-center items-center gap-4"
             >
               <div
                 className={`w-14 h-14 z-10 flex items-center justify-center rounded-full text-lg font-semibold
                 ${
-                  idx <= currentStep
+                  idx < currentStep
                     ? "bg-blue-500 text-white"
                     : "bg-gray-300 text-gray-600"
-                } transition-all duration-300`}
+                }
+                transition-all duration-300`}
               >
-                {currentStep > idx ? "d" : idx + 1}
+                {idx + 1}
               </div>
-              <div>
-                <span className="text-gray-600 font-[550] text-lg">{name}</span>
-              </div>
+              <span className="text-gray-600 font-semibold text-lg">
+                {name}
+              </span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="w-full">{SelectedStepperComponent()}</div>
+      {/* Render Selected Component */}
+      <div className="w-full">
+        {typeof SelectedStepperComponent === "function" ? (
+          <SelectedStepperComponent />
+        ) : (
+          SelectedStepperComponent
+        )}
+      </div>
 
       {/* Navigation Buttons */}
       <div className="flex gap-6">
         <button
           onClick={handlePrev}
-          disabled={currentStep === 0}
+          disabled={currentStep === 1}
           className="px-6 py-2 rounded-md shadow text-white text-lg 
-            disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-700 hover:bg-gray-800 transition-all"
+          disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-700 hover:bg-gray-800 transition-all"
         >
           Prev
         </button>
         <button
           onClick={handleNext}
-          disabled={currentStep === totalSteps - 1}
           className="px-6 py-2 rounded-md shadow text-white text-lg 
-            disabled:bg-gray-400 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-all"
+          disabled:bg-gray-400 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 transition-all"
         >
-          Next
+          {currentStep === totalSteps ? "Finish" : "Next"}
         </button>
       </div>
     </div>
