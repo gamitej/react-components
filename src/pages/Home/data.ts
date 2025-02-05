@@ -20,4 +20,9 @@ export const pagesData: PagesDataType[] = [
     url: "/toast",
     description: "Click to view toast components",
   },
+  {
+    title: "Stepper",
+    url: "/stepper",
+    description: "Click to view stepper components",
+  },
 ];
