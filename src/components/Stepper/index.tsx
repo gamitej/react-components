@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface StepperProps {
-  data: { label: string; value: string }[];
+  width?: string;
+  data: { name: string; component: () => string }[];
 }
 
-const Stepper = ({ data }: StepperProps) => {
+const Stepper = ({ data, width = "100%" }: StepperProps) => {
   const totalSteps = data.length;
-  const width = 10 * totalSteps;
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleNext = () => {
@@ -17,62 +17,53 @@ const Stepper = ({ data }: StepperProps) => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
+  const progressBarWidth = Math.ceil((currentStep / (totalSteps - 1)) * 100);
+
+  const SelectedStepperComponent = data[currentStep].component;
+
   if (data.length < 2) {
     console.error("Stepper data is too short!");
     return null;
   }
 
   return (
-    <div className="flex flex-col items-center gap-12 p-8">
+    <div style={{ width }} className="flex flex-col items-center gap-12 p-8">
       {/* Stepper Bar */}
-      <div
-        className="relative flex flex-col items-center"
-        style={{ width: `${width}rem` }}
-      >
+      <div className="w-full relative flex flex-col items-center">
         {/* Progress Bar */}
-        <div className="absolute top-6 w-full h-2 bg-gray-300 rounded-lg">
+        <div className="absolute top-6 w-[calc(100%-5rem)] h-2 bg-gray-300 rounded-lg">
           <div
             className="h-2 bg-blue-500 rounded-lg transition-all duration-300"
-            style={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }}
+            style={{ width: `${progressBarWidth}%` }}
           ></div>
         </div>
 
         {/* Step Circles */}
-        <div className="relative flex w-[calc(100%+.2rem)] justify-between items-center">
-          {data.map((_, idx) => (
+        <div className="flex w-[calc(100%+.2rem)] justify-between items-center">
+          {data.map(({ name }, idx) => (
             <div
-              key={idx}
-              className={`w-12 h-12 flex items-center justify-center rounded-full text-lg font-semibold
+              key={`${name}-${idx}`}
+              className="flex flex-col justify-center items-center gap-4"
+            >
+              <div
+                className={`w-14 h-14 z-10 flex items-center justify-center rounded-full text-lg font-semibold
                 ${
                   idx <= currentStep
                     ? "bg-blue-500 text-white"
                     : "bg-gray-300 text-gray-600"
                 } transition-all duration-300`}
-            >
-              {idx + 1}
+              >
+                {currentStep > idx ? "d" : idx + 1}
+              </div>
+              <div>
+                <span className="text-gray-600 font-[550] text-lg">{name}</span>
+              </div>
             </div>
           ))}
         </div>
-
-        {/* Step Labels */}
-        <div
-          className="grid mt-4"
-          style={{
-            width: `${width + 10}rem`,
-            gridTemplateColumns: `repeat(${totalSteps}, 1fr)`,
-          }}
-        >
-          {data.map(({ label }, idx) => (
-            <span
-              key={idx}
-              className={`text-lg text-center font-medium transition-all duration-300
-                ${idx === currentStep ? "text-blue-600" : "text-gray-500"}`}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
       </div>
+
+      <div className="w-full">{SelectedStepperComponent()}</div>
 
       {/* Navigation Buttons */}
       <div className="flex gap-6">

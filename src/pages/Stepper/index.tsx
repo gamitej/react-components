@@ -1,10 +1,10 @@
 import Stepper from "@/components/Stepper";
 
 const stepperData = [
-  { label: "Custome info", value: "" },
-  { label: "Shipping info", value: "" },
-  { label: "Payment", value: "" },
-  { label: "Delivered", value: "" },
+  { name: "Custome info", component: () => "please enter your personal info" },
+  { name: "Shipping info", component: () => "please shipping address daata" },
+  { name: "Payment", component: () => "please enter payment details" },
+  { name: "Delivered", component: () => "Item Delivered" },
 ];
 
 const StepperPage = () => {
@@ -13,7 +13,7 @@ const StepperPage = () => {
    */
   return (
     <div className="h-[40vh] flex justify-center items-center">
-      <Stepper data={stepperData} />
+      <Stepper data={stepperData} width="80%" />
     </div>
   );
 };
