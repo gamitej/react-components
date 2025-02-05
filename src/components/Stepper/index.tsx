@@ -17,6 +17,11 @@ const Stepper = ({ data }: StepperProps) => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
+  if (data.length < 2) {
+    console.error("Stepper data is too short!");
+    return null;
+  }
+
   return (
     <div className="flex flex-col items-center gap-12 p-8">
       {/* Stepper Bar */}
