@@ -25,4 +25,9 @@ export const pagesData: PagesDataType[] = [
     url: "/stepper",
     description: "Click to view stepper components",
   },
+  {
+    title: "OTP",
+    url: "/otp",
+    description: "Click to view otp components",
+  },
 ];

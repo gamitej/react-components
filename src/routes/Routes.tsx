@@ -11,6 +11,8 @@ const Stepper = lazy(() => import("@/pages/Stepper"));
 const Dropdown = lazy(() => import("@/pages/Dropdown"));
 const DatePicker = lazy(() => import("@/pages/DatePicker"));
 
+const OtpComponent = lazy(() => import("@/components/Otp"));
+
 const Router = () => {
   const routes = useRoutes([
     {
@@ -40,6 +42,10 @@ const Router = () => {
     {
       path: "stepper",
       element: <Stepper />,
+    },
+    {
+      path: "otp",
+      element: <OtpComponent />,
     },
   ]);
 
