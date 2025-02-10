@@ -12,14 +12,17 @@ const OtpInput = ({ inputLength = 3 }: OtpInputProps) => {
   );
   const [inputs, setInputs] = useState<string[]>(Array(inputLength).fill(""));
 
+  useEffect(() => {
+    const isValid = inputs.every((input) => input.length > 0);
+    setIsOtpFilled(isValid);
+  }, [inputs]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     idx: number
   ) => {
     const val = e.target.value.replace(/\D/g, ""); // only numbers
     if (!val) return;
-
-    console.log({ val });
 
     const newInputs = [...inputs];
 
@@ -33,9 +36,7 @@ const OtpInput = ({ inputLength = 3 }: OtpInputProps) => {
       setInputs(newInputs);
 
       // Move focus to next input if available
-      if (idx < inputLength - 1) {
-        inputRefs.current[idx + 1]?.focus();
-      }
+      if (idx < inputLength - 1) inputRefs.current[idx + 1]?.focus();
     }
   };
 
@@ -61,31 +62,28 @@ const OtpInput = ({ inputLength = 3 }: OtpInputProps) => {
     }
   };
 
-  useEffect(() => {
-    const isValid = inputs.every((input) => input.length > 0);
-
-    setIsOtpFilled(isValid);
-  }, [inputs]);
-
+  /**
+   * TSX
+   */
   return (
     <div className="flex flex-col justify-center items-center gap-10">
-      <div className="flex justify-center items-center gap-4 mt-4">
+      <h3 className="text-gray-600 font-[550] text-xl">Submit OTP</h3>
+      <div className="flex justify-center items-center gap-4">
         {inputs.map((value, idx) => (
           <input
             key={idx}
             type="text"
-            // maxLength={1}
             value={value}
-            ref={(el) => (inputRefs.current[idx] = el)}
             onChange={(e) => handleChange(e, idx)}
             onKeyDown={(e) => handleKeyDown(e, idx)}
-            className="border-2 border-gray-400 w-10 h-10 text-center text-lg font-[550] text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ref={(el) => (inputRefs.current[idx] = el)}
+            className="border-2 border-gray-400 w-10 h-10 text-center text-lg font-[550] text-gray-600 focus:outline-none focus:border-none focus:ring-2 focus:ring-blue-500"
           />
         ))}
       </div>
       <button
         aria-disabled={!isOtpFilled}
-        className="px-4 py-2 rounded-md shadow bg-blue-400 hover:bg-blue-500 text-white font-[550] aria-disabled:bg-gray-200 aria-disabled:cursor-not-allowed"
+        className="uppercase px-4 py-2 rounded-md shadow bg-blue-400 hover:bg-blue-500 text-white font-[550] aria-disabled:bg-gray-200 aria-disabled:cursor-not-allowed"
       >
         submit
       </button>
