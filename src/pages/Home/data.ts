@@ -30,4 +30,9 @@ export const pagesData: PagesDataType[] = [
     url: "/otp",
     description: "Click to view otp components",
   },
+  {
+    title: "Model",
+    url: "/model",
+    description: "Click to view model components",
+  },
 ];

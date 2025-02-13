@@ -7,6 +7,7 @@ import { DatePickerProvider } from "@/components/Calendar/BasicDatePicker/contex
 // pages
 const Home = lazy(() => import("@/pages/Home"));
 const Toast = lazy(() => import("@/pages/Toast"));
+const Model = lazy(() => import("@/pages/Model"));
 const Stepper = lazy(() => import("@/pages/Stepper"));
 const Dropdown = lazy(() => import("@/pages/Dropdown"));
 const DatePicker = lazy(() => import("@/pages/DatePicker"));
@@ -46,6 +47,10 @@ const Router = () => {
     {
       path: "otp",
       element: <OtpComponent />,
+    },
+    {
+      path: "model",
+      element: <Model />,
     },
   ]);
 
