@@ -1,5 +1,5 @@
-import { FC, MouseEvent, ReactNode, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { FC, MouseEvent, ReactNode, useRef, useEffect } from "react";
 
 interface BasicModelProps {
   isOpen: boolean;
@@ -34,7 +34,7 @@ const BasicModel: FC<BasicModelProps> = ({ isOpen, onClose, children }) => {
       role="dialog"
       aria-modal="true"
       onClick={handleClose}
-      className="fixed top-0 left-0 right-0 bottom-0 z-[10] flex justify-center items-center bg-black bg-opacity-50"
+      className="fixed top-0 left-0 right-0 bottom-0 z-[1000] flex justify-center items-center bg-black bg-opacity-50"
     >
       <div
         ref={childDivRef}
