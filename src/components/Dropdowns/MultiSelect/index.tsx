@@ -6,7 +6,7 @@ const MultiSelect = () => {
    */
   return (
     <div className="flex justify-center items-center h-[50vh] w-full">
-      <div className="w-[30rem]">
+      <div className="w-[40rem]">
         <Select />
       </div>
     </div>
