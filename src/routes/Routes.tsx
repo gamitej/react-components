@@ -11,6 +11,7 @@ const Model = lazy(() => import("@/pages/Model"));
 const Stepper = lazy(() => import("@/pages/Stepper"));
 const Dropdown = lazy(() => import("@/pages/Dropdown"));
 const DatePicker = lazy(() => import("@/pages/DatePicker"));
+const MultiSelect = lazy(() => import("@/components/Dropdowns/MultiSelect"));
 
 const OtpComponent = lazy(() => import("@/components/Otp"));
 
@@ -51,6 +52,10 @@ const Router = () => {
     {
       path: "model",
       element: <Model />,
+    },
+    {
+      path: "multiselect",
+      element: <MultiSelect />,
     },
   ]);
 

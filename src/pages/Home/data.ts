@@ -35,4 +35,9 @@ export const pagesData: PagesDataType[] = [
     url: "/model",
     description: "Click to view model components",
   },
+  {
+    title: "MultiSelection",
+    url: "/multiselect",
+    description: "Click to view multi-select components",
+  },
 ];
