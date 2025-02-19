@@ -2,8 +2,14 @@ import { useState } from "react";
 import { FaFolderOpen as FolderIcon } from "react-icons/fa";
 import { FaRegFileLines as FileIcon } from "react-icons/fa6";
 import { data } from "./data";
+import { RecursiveProps } from "./type";
 
-const Recursive = ({ data = [], marginLeft = 0, toggle, isFolderOpen }) => {
+const Recursive = ({
+  toggle,
+  data = [],
+  isFolderOpen,
+  marginLeft = 0,
+}: RecursiveProps) => {
   if (!data.length) return null;
 
   return (
@@ -26,12 +32,12 @@ const Recursive = ({ data = [], marginLeft = 0, toggle, isFolderOpen }) => {
               <span>{label}</span>
             </div>
             {isOpen && isFolder && items.length > 0 && (
-              <div className="flex flex-col gap-2 mt-2">
+              <div className="relative flex flex-col gap-2 mt-2 border-l border-gray-600 ml-2">
                 <Recursive
                   data={items}
                   toggle={toggle}
                   isFolderOpen={isFolderOpen}
-                  marginLeft={marginLeft + 1.5}
+                  marginLeft={marginLeft + 1}
                 />
               </div>
             )}
