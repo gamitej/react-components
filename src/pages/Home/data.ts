@@ -40,4 +40,9 @@ export const pagesData: PagesDataType[] = [
     url: "/multiselect",
     description: "Click to view multi-select components",
   },
+  {
+    title: "Folder Structure",
+    url: "/folder",
+    description: "Click to view folder-structure components",
+  },
 ];

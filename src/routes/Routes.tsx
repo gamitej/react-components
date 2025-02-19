@@ -11,9 +11,10 @@ const Model = lazy(() => import("@/pages/Model"));
 const Stepper = lazy(() => import("@/pages/Stepper"));
 const Dropdown = lazy(() => import("@/pages/Dropdown"));
 const DatePicker = lazy(() => import("@/pages/DatePicker"));
-const MultiSelect = lazy(() => import("@/components/Dropdowns/MultiSelect"));
 
 const OtpComponent = lazy(() => import("@/components/Otp"));
+const MultiSelect = lazy(() => import("@/components/Dropdowns/MultiSelect"));
+const FolderStructure = lazy(() => import("@/components/Folder"));
 
 const Router = () => {
   const routes = useRoutes([
@@ -56,6 +57,10 @@ const Router = () => {
     {
       path: "multiselect",
       element: <MultiSelect />,
+    },
+    {
+      path: "folder",
+      element: <FolderStructure />,
     },
   ]);
 
