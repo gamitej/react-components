@@ -1,24 +1,16 @@
-export type FileDataType = {
+export type DataType = {
   id: number;
   label: string;
-  isFolder: false;
-  items: [];
+  isFolder: boolean;
+  items: DataType[] | [];
 };
-
-export type FolderDataType = {
-  id: number;
-  label: string;
-  isFolder: true;
-  items: DataType[];
-};
-
-export type DataType = FolderDataType | FileDataType;
 
 export type DataFolder = DataType[];
 
 export interface RecursiveProps {
-  marginLeft: number;
   data: DataFolder;
-  isFolderOpen: Record<number, boolean>;
+  marginLeft: number;
   toggle: (num: number) => void;
+  isFolderOpen: Record<number, boolean>;
+  submit: (name: string, parentId: number, isFolder: boolean) => void;
 }
