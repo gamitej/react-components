@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IoMdArrowDropright as ArrowIcon } from "react-icons/io";
 import { FaFolderOpen as FolderIcon } from "react-icons/fa";
 import { FaRegFileLines as FileIcon } from "react-icons/fa6";
 import { data } from "./data";
@@ -15,6 +16,7 @@ const Recursive = ({
   return (
     <div className="flex flex-col gap-2">
       {data.map(({ id, isFolder, label, items = [] }) => {
+        const isItemsEmpty = items.length > 0 ? false : true;
         const isOpen = isFolderOpen[id] || false;
         const Icon = isFolder ? (
           <FolderIcon className="text-gray-600 text-xl" />
@@ -26,12 +28,20 @@ const Recursive = ({
           <div key={id} style={{ marginLeft: `${marginLeft}rem` }}>
             <div
               onClick={() => isFolder && toggle(id)}
-              className="flex gap-2 cursor-pointer hover:underline"
+              className="flex gap-2 cursor-pointer hover:underline items-center"
             >
               <span>{Icon}</span>
               <span>{label}</span>
+              {!isItemsEmpty && (
+                <span>
+                  <ArrowIcon
+                    aria-expanded={isOpen}
+                    className="text-gray-600 -ml-2 text-xl mt-[1px] aria-expanded:rotate-90"
+                  />
+                </span>
+              )}
             </div>
-            {isOpen && isFolder && items.length > 0 && (
+            {isOpen && isFolder && !isItemsEmpty && (
               <div className="relative flex flex-col gap-2 mt-2 border-l border-gray-600 ml-2">
                 <Recursive
                   data={items}
