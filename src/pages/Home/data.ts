@@ -45,4 +45,9 @@ export const pagesData: PagesDataType[] = [
     url: "/folder",
     description: "Click to view folder-structure components",
   },
+  {
+    title: "Quiz App",
+    url: "/quiz",
+    description: "Click to view quiz-app questions components",
+  },
 ];

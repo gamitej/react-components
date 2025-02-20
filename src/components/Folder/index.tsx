@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { IoMdArrowDropright as ArrowIcon } from "react-icons/io";
+// icons
 import { FaFolderOpen as FolderIcon } from "react-icons/fa";
 import { FaRegFileLines as FileIcon } from "react-icons/fa6";
+import { IoMdArrowDropright as ArrowIcon } from "react-icons/io";
+// data
 import { data } from "./data";
 import { DataFolder, RecursiveProps } from "./type";
 
@@ -18,9 +20,8 @@ const Recursive = ({
   if (!data.length) return null;
 
   const onSubmit = (parentId: number) => {
-    if (name.trim().length > 0) {
-      submit(name, parentId, add.isFolder);
-    }
+    if (name.trim().length > 0) submit(name, parentId, add.isFolder);
+
     setAdd({ enabled: false, isFolder: false });
     setName("");
   };

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import Pill from "./Pill";
+import { useEffect, useRef, useState } from "react";
 
 const Select = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
