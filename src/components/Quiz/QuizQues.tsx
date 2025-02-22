@@ -1,8 +1,11 @@
-import { useTimer } from "@/hooks/useTimer";
-import { QuizQuesProps } from "./type";
-import { useMultiForm } from "@/hooks/useMultiForm";
 import { useEffect } from "react";
+// components
 import ShowResult from "./ShowResult";
+// hoks
+import { useTimer } from "@/hooks/useTimer";
+import { useMultiForm } from "@/hooks/useMultiForm";
+// types
+import { QuizQuesProps } from "./type";
 
 const QuizQues = ({
   optionSelected,
