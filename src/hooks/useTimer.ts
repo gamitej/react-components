@@ -35,6 +35,11 @@ export const useTimer = ({ timeNo, timerType }: UseTimerProps) => {
     setTimer(initialTime);
   };
 
+  const handleFinished = () => {
+    setIsRunning(false);
+    setTimer(0);
+  };
+
   // Convert time to minutes and seconds
   const minutes = Math.floor(time / 60000);
   const seconds = Math.floor((time % 60000) / 1000);
@@ -45,6 +50,7 @@ export const useTimer = ({ timeNo, timerType }: UseTimerProps) => {
     stop: handleStop,
     start: handleStart,
     reset: handleReset,
+    finish: handleFinished,
     isFinished: time === 0,
   };
 };

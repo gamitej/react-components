@@ -9,7 +9,7 @@ const QuizQues = ({
   questions = [],
   handleOptionSelected,
 }: QuizQuesProps) => {
-  const { isFinished, minutes, seconds, start } = useTimer({
+  const { isFinished, minutes, seconds, start, finish } = useTimer({
     timeNo: 10,
     timerType: "sec",
   });
@@ -86,11 +86,11 @@ const QuizQues = ({
           disabled={isStart}
           className="px-4 py-1 bg-gray-500 text-white shadow rounded-sm uppercase disabled:bg-gray-200 hover:bg-gray-400"
         >
-          prev
+          prev que
         </button>
         {isLast ? (
           <button
-            onClick={next}
+            onClick={finish}
             className="px-4 py-1 bg-blue-500 text-white shadow rounded-sm uppercase hover:bg-blue-600"
           >
             finish
@@ -100,7 +100,7 @@ const QuizQues = ({
             onClick={next}
             className="px-4 py-1 bg-gray-500 text-white shadow rounded-sm uppercase hover:bg-gray-400"
           >
-            next
+            next que
           </button>
         )}
       </div>
