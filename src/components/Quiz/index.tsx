@@ -1,28 +1,24 @@
 import { useState } from "react";
-import { questions } from "./data";
+// components
 import QuizQues from "./QuizQues";
+// data & type
+import { questions } from "./data";
+import { OptionsType } from "./type";
 
 const QuizApp = () => {
-  const [optionSelected, setOptionSelected] = useState<Record<
-    number,
-    any
-  > | null>(null);
+  const [optionSelected, setOptionSelected] = useState<OptionsType>(null);
 
   const handleOptionSelected = (
     queNo: number,
     queName: string,
-    selectedOption: number
+    selectedOption: number,
+    isCorrect: boolean
   ) => {
     setOptionSelected((state) => {
-      if (!state) return { [queNo]: { queName, optionNo: selectedOption } };
-
-      if (state[queNo])
-        return {
-          ...state,
-          [queNo]: { ...state[queNo], queName, optionNo: selectedOption },
-        };
-
-      return { ...state, [queNo]: { queName, optionNo: selectedOption } };
+      return {
+        ...state,
+        [queNo]: { queName, optionNo: selectedOption, isCorrect },
+      };
     });
   };
 

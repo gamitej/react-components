@@ -28,6 +28,7 @@ export const useMultiForm = <T>(data: T[]) => {
     section: section + 1,
     jumpTo: handleJumpToAny,
     isStart: section === 0,
+    selectedPageData: data[section],
     totalSections: data?.length ?? 0,
     isLast: section === data?.length - 1,
   };

@@ -1,15 +1,15 @@
 import { useTimer } from "@/hooks/useTimer";
-import { QuestionsType } from "./type";
+import { QuizQuesProps } from "./type";
 import { useMultiForm } from "@/hooks/useMultiForm";
+import { useEffect } from "react";
+import ShowResult from "./ShowResult";
 
 const QuizQues = ({
   optionSelected,
   questions = [],
   handleOptionSelected,
-}: {
-  questions: QuestionsType[];
-}) => {
-  const { isFinished, minutes, seconds } = useTimer({
+}: QuizQuesProps) => {
+  const { isFinished, minutes, seconds, start } = useTimer({
     timeNo: 10,
     timerType: "sec",
   });
@@ -20,8 +20,19 @@ const QuizQues = ({
     isLast,
     isStart,
     section: pageNo,
+    selectedPageData,
     totalSections: totalPages,
   } = useMultiForm(questions);
+
+  useEffect(() => {
+    start();
+  }, []);
+
+  if (isFinished) {
+    return (
+      <ShowResult result={optionSelected ?? {}} questionAnswers={questions} />
+    );
+  }
 
   /**
    * TSX
@@ -35,37 +46,39 @@ const QuizQues = ({
         {minutes} : {seconds}
       </span>
       <div className="flex flex-col justify-center items-center">
-        {questions.map(({ question, options }, questionNo) => {
-          if (questionNo !== pageNo - 1) return null;
-          return (
-            <div
-              key={question}
-              className="w-full flex flex-col justify-center items-center gap-8"
-            >
-              <h2 className="text-gray-600 text-2xl font-[550]">{question}</h2>
-              <div className="w-full grid grid-cols-2 gap-4">
-                {options.map(({ option, isCorrect }, optionNo) => (
-                  <p
-                    key={option}
-                    onClick={() =>
-                      handleOptionSelected(questionNo, question, optionNo)
-                    }
-                    aria-selected={
-                      optionSelected
-                        ? optionSelected[questionNo]?.optionNo === optionNo
-                          ? true
-                          : false
-                        : false
-                    }
-                    className="aria-selected:bg-blue-300 col-span-1 min-w-[15rem] bg-gray-200 px-4 py-2 text-center rounded-sm text-gray-600 cursor-pointer hover:ring-2 hover:ring-gray-400 duration-300 ease-in-out aria"
-                  >
-                    {option}
-                  </p>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        <div
+          key={selectedPageData.question}
+          className="w-full flex flex-col justify-center items-center gap-8"
+        >
+          <h2 className="text-gray-600 text-2xl font-[550]">
+            {selectedPageData.question}
+          </h2>
+          <div className="w-full grid grid-cols-2 gap-4">
+            {selectedPageData.options.map(({ option, isCorrect }, optionNo) => (
+              <p
+                key={option}
+                onClick={() =>
+                  handleOptionSelected(
+                    pageNo,
+                    selectedPageData.question,
+                    optionNo,
+                    isCorrect
+                  )
+                }
+                aria-selected={
+                  optionSelected
+                    ? optionSelected[pageNo]?.optionNo === optionNo
+                      ? true
+                      : false
+                    : false
+                }
+                className="aria-selected:bg-blue-300 col-span-1 min-w-[15rem] bg-gray-200 px-4 py-2 text-center rounded-sm text-gray-600 cursor-pointer hover:ring-2 hover:ring-gray-400 duration-300 ease-in-out aria"
+              >
+                {option}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
       <div className="flex justify-end items-center gap-2 mt-5 text-lg">
         <button
